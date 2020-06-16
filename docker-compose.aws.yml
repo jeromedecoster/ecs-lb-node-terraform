@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  site:
+    image: jeromedecoster/ecs-lb-node
+    ports:
+      - "80:80"
+    logging:
+      driver: awslogs     
+      options: 
+        awslogs-group: ecs-lb-node
+        awslogs-region: eu-west-3
+        awslogs-stream-prefix: site

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Metadata</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/themes/prism.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <h1>ECS - Load Balancer - Node</h1>
+
+    <div class="info">
+        <p>http://169.254.170.2/v2/metadata</p>
+        
+        <ul>
+            <li><b>image</b>: <%- locals.image %></li>
+            <li><b>network</b>: <%- locals.network %></li>
+            <li><b>address</b>: <%- locals.address %></li>
+        </ul>
+    </div>
+
+    <pre><code class="language-json"><%- locals.data %></code></pre>
+
+    <% if (locals.settings.env == 'development') { %>
+    <footer><u>development</u> version: <%- locals.version %></footer>
+    <% } else { %>
+    <footer>version: <%- locals.version %></footer>
+    <% } %>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.20.0/components/prism-core.min.js"></script>
+    <!-- <script>
+        window.Prism = window.Prism || {};
+        window.Prism.manual = true;
+    </script> -->
+    <script src="js/script.js"></script>
+</body>
+
+</html>
