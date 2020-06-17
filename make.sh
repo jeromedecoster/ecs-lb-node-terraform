@@ -393,28 +393,38 @@ ecs-destroy() {
     LB_ARN=$(aws elbv2 describe-load-balancers \
         --names $NAME \
         --query 'LoadBalancers[0].LoadBalancerArn' \
+        --profile $PROFILE \
+        --region $REGION \
         --output text \
         2>/dev/null)
     
     # TODO: clean up: find another test to remove 'None'
     [[ -n "$LB_ARN" && 'None' != "$LB_ARN" ]] \
         && aws elbv2 delete-load-balancer \
-            --load-balancer-arn $LB_ARN
+            --load-balancer-arn $LB_ARN \
+            --profile $PROFILE \
+            --region $REGION
 
     # target group arn
     TG_ARN=$(aws elbv2 describe-target-groups \
         --names $NAME \
         --query 'TargetGroups[0].TargetGroupArn' \
+        --profile $PROFILE \
+        --region $REGION \
         --output text \
         2>/dev/null)
 
     # TODO: clean up: find another test to remove 'None'
     [[ -n "$TG_ARN" && 'None' != "$TG_ARN" ]] \
         && aws elbv2 delete-target-group \
-            --target-group-arn $TG_ARN
+            --target-group-arn $TG_ARN \
+            --profile $PROFILE \
+            --region $REGION
 
     local cluster=$(aws ecs list-clusters \
         --query 'clusterArns' \
+        --profile $PROFILE \
+        --region $REGION \
         --output yaml \
         | grep /$NAME$)
 
@@ -423,11 +433,15 @@ ecs-destroy() {
     ecs-cli compose \
         --project-name $NAME \
         service down \
-        --cluster-config $NAME
+        --cluster-config $NAME \
+        --aws-profile $PROFILE \
+        --region $REGION
     
     ecs-cli down \
         --force \
-        --cluster-config $NAME
+        --cluster-config $NAME \
+        --aws-profile $PROFILE \
+        --region $REGION
 }
 
 tf-init() {
